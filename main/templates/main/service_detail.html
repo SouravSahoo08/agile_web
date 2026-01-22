@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>{{ service.meta_title|default:service.title }} | Agile Web</title>
+    <meta name="description" content="{{ service.meta_description|default:service.short_description }}">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        .service-header { padding: 80px 0 40px; }
+        .sub-service-card { 
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid var(--border); 
+            border-radius: 12px;
+            padding: 20px;
+            transition: 0.3s;
+            height: 100%;
+        }
+        .sub-service-card:hover { background: rgba(255,255,255,0.05); border-color: var(--accent); }
+    </style>
+</head>
+<body>
+    {% include 'main/navbar.html' %}
+
+    <div class="container">
+        <div style="padding-top: 40px;">
+            <a href="{% url 'home' %}#services" class="btn-outline" style="margin-left:0; padding: 10px 20px; font-size: 0.9rem;">
+                <i class="material-icons left">arrow_back</i> Back to Services
+            </a>
+        </div>
+
+        <div class="service-header center-align">
+            <i class="material-icons large accent-text" style="font-size: 5rem;">{{ service.icon_name }}</i>
+            <h1 class="outfit-bold">{{ service.title }}</h1>
+            <p class="hero-subtext">{{ service.long_description }}</p>
+        </div>
+
+        
+
+        <h3 class="outfit-bold text-gradient">What We Offer</h3>
+        <div class="row" style="margin-top: 30px;">
+            {% for sub in service.sub_services.all %}
+            <div class="col s12 m6">
+                <div class="sub-service-card">
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <i class="material-icons accent-text" style="margin-right: 15px;">{{ sub.icon_name }}</i>
+                        <h5 class="outfit-bold" style="margin:0; font-size: 1.5rem;">{{ sub.title }}</h5>
+                    </div>
+                    <p class="text-dim">{{ sub.description }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <p>No sub-services listed yet.</p>
+            {% endfor %}
+        </div>
+
+        <div class="center-align" style="margin: 60px 0;">
+            <a href="{% url 'home' %}#contact" class="btn-premium">Get a Quote for {{ service.title }}</a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="{% static 'js/script.js' %}"> </script>
+</body>
+</html>
